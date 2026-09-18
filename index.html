@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cardiovascular Care Assistant — Launch</title>
+  <link rel="stylesheet" href="./frontend/styles.css" />
+  <style>
+    body { display: grid; place-items: center; min-height: 100vh; }
+    .hub { max-width: 980px; padding: 32px 20px; }
+    .hub h1 { font-size: 1.6rem; margin-bottom: 4px; }
+    .hub p.sub { color: var(--muted); margin: 0 0 24px; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .tile {
+      display: block; background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px; text-decoration: none; color: var(--text);
+      box-shadow: var(--shadow); transition: transform .12s ease, border-color .12s ease;
+    }
+    .tile:hover { transform: translateY(-2px); border-color: var(--primary); }
+    .tile .ico { font-size: 1.6rem; }
+    .tile h2 { margin: 8px 0 4px; font-size: 1rem; }
+    .tile p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .notice {
+      margin-top: 22px; background: var(--warn-soft); border: 1px solid #fde68a;
+      color: #92400e; border-radius: 10px; padding: 10px 14px; font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="hub">
+    <h1>❤ Cardiovascular Care Assistant</h1>
+    <p class="sub">Smart wearable-based cardiovascular monitoring ecosystem — academic prototype demo launcher</p>
+    <div class="tiles">
+      <a class="tile" href="./doctor-dashboard/">
+        <div class="ico">🏥</div>
+        <h2>Doctor Dashboard</h2>
+        <p>Hospital monitoring view: vitals, ECG, alerts + acknowledge, history graphs, medications, appointments, SOS.</p>
+      </a>
+      <a class="tile" href="./patient-app/">
+        <div class="ico">📱</div>
+        <h2>Patient App</h2>
+        <p>Mobile interface: vitals, ECG, alerts, big SOS button, medications and appointments.</p>
+      </a>
+      <a class="tile" href="./simulator/">
+        <div class="ico">⌚</div>
+        <h2>Wearable Simulator (Web)</h2>
+        <p>Trigger demo scenarios: normal, high HR, low SpO2, low HR, SOS, continuous monitoring.</p>
+      </a>
+      <a class="tile" href="./docs/demo.md" title="See also docs/demo.md in the repo">
+        <div class="ico">🎬</div>
+        <h2>Demo Guide</h2>
+        <p>Step-by-step demo script for the presentation (opens the markdown file).</p>
+      </a>
+    </div>
+    <div class="notice">
+      <b>Academic prototype.</b> Synthetic demonstration data only. Not a medical device,
+      not clinically validated, not diagnostic. Thresholds are prototype configuration values.
+      Hardware layer (ESP32 + MAX30102 + AD8232 + MPU6050 → BLE) is simulated; the backend,
+      data contract, and dashboards are the real deliverables.
+    </div>
+  </main>
+</body>
+</html>
