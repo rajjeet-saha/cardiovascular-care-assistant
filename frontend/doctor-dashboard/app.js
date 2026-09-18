@@ -44,7 +44,7 @@ function updateConn() {
     text.textContent = "Backend Connected";
   } else if (!lastVitalsOk || !lastAlertsOk) {
     dot.className = "dot dot-red";
-    text.textContent = "Backend unavailable — retrying…";
+    text.textContent = "Waking backend (Render free tier) — auto-retrying…";
   }
 }
 

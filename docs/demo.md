@@ -10,8 +10,11 @@ Academic prototype. Synthetic data only. Not a medical device.
    - http://localhost:3001/frontend/patient-app/
    - http://localhost:3001/frontend/simulator/
 3. Verify "Backend Connected" (green dot) on all pages.
-   (Render free tier can sleep — first load may take ~60 s; open the dashboard
-   early so it's warm.)
+   (Render free tier sleeps after ~15 min idle — the first request takes
+   30–60 s while it wakes, and the UI now auto-retries with a
+   "Waking backend" indicator. **Tip:** open the hub ~5 minutes before the
+   demo and leave the tab open — it pings the backend every 50 s to keep
+   it warm for the whole session.)
 4. Optional CLI alternative for the simulator:
    `node simulator/simulator.js` (menu) or `--scenario high` flags.
 

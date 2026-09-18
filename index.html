@@ -140,19 +140,28 @@
           set("live-spo2", n.spo2);
           set("hub-conn", "Backend Connected");
           document.getElementById("hub-dot").className = "dot dot-green";
+          waking = false;
           return fetch(BASE + "/alerts/P001").then(function (r) { return r.json(); }).then(function (a) {
             var active = (a && a.success && Array.isArray(a.data))
               ? a.data.filter(function (x) { return x.status === "active"; }).length : 0;
             set("live-alerts", active);
           });
         }).catch(function () {
-          set("hub-conn", "Backend unavailable — retrying…");
+          /* Render free tier sleeps after ~15 min idle; first request wakes it (30-60 s). */
+          waking = true;
+          wakeAttempts++;
+          set("hub-conn", "Waking backend (free tier)… attempt " + wakeAttempts);
           document.getElementById("hub-dot").className = "dot dot-red";
+          setTimeout(tick, 3000); /* fast retry until it responds */
         });
       }
 
+      var waking = false, wakeAttempts = 0;
       tick();
-      setInterval(tick, 5000);
+      setInterval(function () { if (!waking) tick(); }, 5000);
+      /* keep-alive: while the hub is open, ping so the backend stays warm
+         for the rest of the demo session */
+      setInterval(function () { fetch(BASE + "/").catch(function () {}); }, 50000);
       /* hero heart beats at the live BPM (animation-duration follows --bpm) */
       setInterval(beat, 1000);
       beat();

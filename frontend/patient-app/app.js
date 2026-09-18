@@ -33,7 +33,7 @@ function updateConn() {
     text.textContent = "Connected";
   } else {
     dot.className = "dot dot-red";
-    text.textContent = "Offline";
+    text.textContent = "Waking backend…";
   }
 }
 
