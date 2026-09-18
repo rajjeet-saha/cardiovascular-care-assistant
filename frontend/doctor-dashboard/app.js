@@ -11,7 +11,7 @@
           getMedications, getAppointments, PATIENT_ID,
           esc, formatTime, formatDateTime, timeAgo, activityLabel, vitalStatus,
           alertDisplayInfo, alertValueSummary,
-          drawLineChart, drawEcg, prepareCanvas */
+          drawLineChart, drawEcg, prepareCanvas, AI */
 
 const POLL_MS = 4000;      // vitals + alerts polling (spec: 3–5 s)
 const SLOW_POLL_MS = 60000; // medications + appointments
@@ -95,7 +95,13 @@ async function loadPatient() {
    ============================================================ */
 
 function setVital(kind, value, meta) {
-  $("vital-" + kind + "-value").textContent = value;
+  // Count-up animation when the displayed number changes (AI.countUp from ai-motion.js)
+  const valEl = $("vital-" + kind + "-value");
+  if (AI && AI.countUp && String(value) !== valEl.textContent && !isNaN(Number(value))) {
+    AI.countUp(valEl, value);
+  } else {
+    valEl.textContent = value;
+  }
   $("vital-" + kind + "-meta").textContent = meta;
   $("vital-" + kind).classList.remove("ok", "warn", "critical");
 }

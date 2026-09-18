@@ -10,7 +10,7 @@
 /* global getPatient, getHealthReadings, getAlerts, acknowledgeAlert, sendSOS,
           getMedications, getAppointments, PATIENT_ID,
           esc, formatDateTime, timeAgo, activityLabel, vitalStatus,
-          alertDisplayInfo, alertValueSummary, drawEcg */
+          alertDisplayInfo, alertValueSummary, drawEcg, AI */
 
 const POLL_MS = 4000;
 const SLOW_POLL_MS = 60000;
@@ -65,7 +65,12 @@ async function loadPatient() {
 /* ---------------- Vitals + ECG ---------------- */
 
 function setVital(kind, value, meta, status) {
-  $("vital-" + kind + "-value").textContent = value;
+  const valEl = $("vital-" + kind + "-value");
+  if (AI && AI.countUp && String(value) !== valEl.textContent && !isNaN(Number(value))) {
+    AI.countUp(valEl, value);
+  } else {
+    valEl.textContent = value;
+  }
   $("vital-" + kind + "-meta").textContent = meta;
   const el = $("vital-" + kind);
   el.classList.remove("ok", "warn", "critical");

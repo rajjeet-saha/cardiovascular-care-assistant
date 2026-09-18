@@ -6,6 +6,7 @@
   <title>Wearable Simulator — Cardiovascular Care Assistant</title>
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="../src/services/animations.css" />
+  <link rel="stylesheet" href="../src/services/ai-theme.css" />
   <style>
     .sim-grid { display: grid; grid-template-columns: 340px minmax(0,1fr); gap: 16px; align-items: start; }
     .scenarios { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -35,7 +36,7 @@
     @media (max-width: 900px) { .sim-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
-<body>
+<body class="ai-dark">
   <!-- ACADEMIC PROTOTYPE — synthetic demonstration data only. -->
   <header class="topbar">
     <div class="brand">
@@ -96,6 +97,7 @@
     </footer>
   </main>
 
+  <script src="../src/services/ai-motion.js"></script>
   <script src="../src/services/helpers.js"></script>
   <script src="../src/services/api.js"></script>
   <script src="app.js"></script>
