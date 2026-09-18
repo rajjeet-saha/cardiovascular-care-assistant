@@ -75,6 +75,16 @@ function setVital(kind, value, meta, status) {
 function renderVitals() {
   if (!readings.length) return;
   const n = readings[0];
+
+  // Live BPM drives every heartbeat animation on the page.
+  const hrNum = Number(n.heartRate);
+  if (!isNaN(hrNum) && hrNum >= 30 && hrNum <= 220) {
+    document.documentElement.style.setProperty("--bpm", hrNum);
+    $("vital-hr").classList.add("throbbing");
+  } else {
+    $("vital-hr").classList.remove("throbbing");
+  }
+
   const lu = $("last-updated");
   if (lu) lu.textContent = "Last updated " + timeAgo(n.timestamp) + " · Wearable simulated";
 
@@ -148,7 +158,7 @@ function renderAlerts() {
   const strip = $("alert-strip");
   const sos = active.find(a => a.type === "SOS");
   if (sos) {
-    strip.className = "alert-strip sos-strip";
+    strip.className = "alert-strip sos-strip sos-radar";
     strip.innerHTML = "<span>🚨 SOS SENT — help requested</span>";
     show("alert-strip", true);
   } else if (active.length) {

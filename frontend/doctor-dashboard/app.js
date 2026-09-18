@@ -104,6 +104,16 @@ function renderVitals() {
   if (!readings.length) return;
   const n = readings[0]; // newest
 
+  // Feed the live heart rate into the motion layer: the heartbeat
+  // animations across the page beat at the patient's actual BPM.
+  const hrNum = Number(n.heartRate);
+  if (!isNaN(hrNum) && hrNum >= 30 && hrNum <= 220) {
+    document.documentElement.style.setProperty("--bpm", hrNum);
+    $("vital-hr").classList.add("throbbing");
+  } else {
+    $("vital-hr").classList.remove("throbbing");
+  }
+
   const hrStatus = vitalStatus("hr", n.heartRate, thresholds);
   setVital("hr", n.heartRate === null || n.heartRate === undefined ? "—" : n.heartRate,
     "Updated " + timeAgo(n.timestamp));
@@ -297,6 +307,16 @@ function renderAlerts() {
   show("alerts-empty", alerts.length === 0);
 
   const list = $("alerts-list");
+  const sosList = $("sos-list");
+
+  // Replay entrance animations only when the alert state actually changed,
+  // so the 4 s polling doesn't make the panel visibly flicker.
+  const sig = JSON.stringify(alerts.slice(0, 25).map(a => [a.alertId, a.status]));
+  const changed = sig !== renderAlerts.lastSig;
+  renderAlerts.lastSig = sig;
+  list.classList.toggle("no-anim", !changed);
+  sosList.classList.toggle("no-anim", !changed);
+
   list.innerHTML = alerts.slice(0, 25).map(alertItemHtml).join("");
 
   // ----- dedicated SOS events panel -----
@@ -312,7 +332,7 @@ function renderAlerts() {
   const strip = $("alert-strip");
   const sosActive = active.find(a => a.type === "SOS");
   if (sosActive) {
-    strip.className = "alert-strip sos-strip";
+    strip.className = "alert-strip sos-strip sos-radar";
     strip.innerHTML =
       "<span>🚨 SOS EMERGENCY</span>" +
       '<span class="strip-detail">' + esc(sosActive.message || "Emergency assistance required") +

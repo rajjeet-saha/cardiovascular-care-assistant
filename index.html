@@ -4,60 +4,159 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cardiovascular Care Assistant — Launch</title>
+  <link rel="icon" href="data:," />
   <link rel="stylesheet" href="./frontend/styles.css" />
+  <link rel="stylesheet" href="./frontend/src/services/animations.css" />
   <style>
-    body { display: grid; place-items: center; min-height: 100vh; }
-    .hub { max-width: 980px; padding: 32px 20px; }
-    .hub h1 { font-size: 1.6rem; margin-bottom: 4px; }
-    .hub p.sub { color: var(--muted); margin: 0 0 24px; }
-    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    body { display: block; min-height: 100vh; }
+    .hub { max-width: 1080px; margin: 0 auto; padding: 28px 22px 46px; }
+    .hero-grid { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+    .hero-copy { flex: 1 1 420px; min-width: 0; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 22px; }
     .tile {
       display: block; background: #fff; border: 1px solid var(--border);
       border-radius: 14px; padding: 20px; text-decoration: none; color: var(--text);
-      box-shadow: var(--shadow); transition: transform .12s ease, border-color .12s ease;
+      box-shadow: var(--shadow);
     }
-    .tile:hover { transform: translateY(-2px); border-color: var(--primary); }
-    .tile .ico { font-size: 1.6rem; }
-    .tile h2 { margin: 8px 0 4px; font-size: 1rem; }
-    .tile p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .tile h2 { margin: 10px 0 4px; font-size: 1.02rem; }
+    .tile p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .live-strip {
+      margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    }
+    .live-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid var(--border); border-radius: 999px;
+      padding: 8px 14px; font-size: .82rem; box-shadow: var(--shadow);
+    }
+    .bpm-num { font-weight: 800; font-size: 1.05rem; color: var(--critical); font-variant-numeric: tabular-nums; }
     .notice {
-      margin-top: 22px; background: var(--warn-soft); border: 1px solid #fde68a;
-      color: #92400e; border-radius: 10px; padding: 10px 14px; font-size: .8rem;
+      margin-top: 26px; background: var(--warn-soft); border: 1px solid #fde68a;
+      color: #92400e; border-radius: 12px; padding: 12px 16px; font-size: .8rem; line-height: 1.55;
+    }
+    .footer-note { text-align: center; color: var(--muted); font-size: .75rem; margin-top: 26px; }
+    @media (max-width: 640px) {
+      .hero-heart { position: static; transform: none; }
+      .hub-hero { padding: 30px 22px; }
     }
   </style>
 </head>
 <body>
   <main class="hub">
-    <h1>❤ Cardiovascular Care Assistant</h1>
-    <p class="sub">Smart wearable-based cardiovascular monitoring ecosystem — academic prototype demo launcher</p>
+    <!-- ============ ANIMATED HERO ============ -->
+    <section class="hub-hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>Cardiovascular Care Assistant</h1>
+          <p>
+            Smart wearable-based cardiovascular monitoring — continuous vitals,
+            rule-based alerts, SOS escalation, and a live hospital dashboard.
+          </p>
+          <div class="hero-badges">
+            <span class="chip">Academic <b>Prototype</b></span>
+            <span class="chip">Synthetic data · <b>P001</b></span>
+            <span class="chip">Backend <b>Live on Render</b></span>
+          </div>
+          <div class="flow-strip" aria-hidden="true">
+            <span class="fnode">⌚ Wearable</span><span class="farrow">›</span>
+            <span class="fnode">📶 BLE</span><span class="farrow">›</span>
+            <span class="fnode">📱 Mobile</span><span class="farrow">›</span>
+            <span class="fnode">☁️ Backend</span><span class="farrow">›</span>
+            <span class="fnode">🏥 Dashboard</span>
+          </div>
+        </div>
+        <div class="hero-heart">
+          <span class="heartbeat heart-hero" id="hero-heart" title="Live demo heart rate">❤</span>
+          <div style="text-align:center; margin-top:6px; font-size:.78rem; color:#cbd5f5;">
+            live · <span id="hero-bpm">72</span> BPM
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LIVE DEMO STRIP ============ -->
+    <div class="live-strip">
+      <span class="live-chip"><span class="dot dot-green" id="hub-dot"></span><span id="hub-conn">Checking backend…</span></span>
+      <span class="live-chip">❤️ <span class="bpm-num" id="live-bpm">—</span> BPM <span class="muted">(live)</span></span>
+      <span class="live-chip">🩸 SpO2 <b id="live-spo2">—</b>%</span>
+      <span class="live-chip">🔔 Active alerts <b id="live-alerts">—</b></span>
+    </div>
+
+    <!-- ============ TILES ============ -->
     <div class="tiles">
-      <a class="tile" href="./doctor-dashboard/">
-        <div class="ico">🏥</div>
+      <a class="tile" href="./frontend/doctor-dashboard/">
+        <span class="ico">🏥</span>
         <h2>Doctor Dashboard</h2>
-        <p>Hospital monitoring view: vitals, ECG, alerts + acknowledge, history graphs, medications, appointments, SOS.</p>
+        <p>Hospital monitoring: live vitals, synthetic ECG, alerts with acknowledgement, history graphs, medications, appointments, SOS.</p>
       </a>
-      <a class="tile" href="./patient-app/">
-        <div class="ico">📱</div>
+      <a class="tile" href="./frontend/patient-app/">
+        <span class="ico">📱</span>
         <h2>Patient App</h2>
-        <p>Mobile interface: vitals, ECG, alerts, big SOS button, medications and appointments.</p>
+        <p>Mobile interface: vitals, ECG, alerts, emergency SOS button, medication and appointment reminders.</p>
       </a>
-      <a class="tile" href="./simulator/">
-        <div class="ico">⌚</div>
-        <h2>Wearable Simulator (Web)</h2>
-        <p>Trigger demo scenarios: normal, high HR, low SpO2, low HR, SOS, continuous monitoring.</p>
+      <a class="tile" href="./frontend/simulator/">
+        <span class="ico">⌚</span>
+        <h2>Wearable Simulator</h2>
+        <p>Trigger demo scenarios: normal, high heart rate, low SpO2, low heart rate, SOS, continuous monitoring.</p>
       </a>
-      <a class="tile" href="./docs/demo.md" title="See also docs/demo.md in the repo">
-        <div class="ico">🎬</div>
+      <a class="tile" href="./docs/demo.md">
+        <span class="ico">🎬</span>
         <h2>Demo Guide</h2>
-        <p>Step-by-step demo script for the presentation (opens the markdown file).</p>
+        <p>Step-by-step presentation script with narration, scenario table, Q&amp;A and troubleshooting.</p>
       </a>
     </div>
+
     <div class="notice">
       <b>Academic prototype.</b> Synthetic demonstration data only. Not a medical device,
-      not clinically validated, not diagnostic. Thresholds are prototype configuration values.
-      Hardware layer (ESP32 + MAX30102 + AD8232 + MPU6050 → BLE) is simulated; the backend,
-      data contract, and dashboards are the real deliverables.
+      not clinically validated, not diagnostic. Thresholds are prototype configuration
+      values, not medical advice. The hardware layer (ESP32 + MAX30102 + AD8232 + MPU6050 →
+      BLE) is simulated; the backend, API contract, and dashboards are the implemented system.
     </div>
+    <p class="footer-note">Backend: cardiovascular-care-backend.onrender.com · Demo frontend: this page · Source: GitHub</p>
   </main>
+
+  <script>
+    /* Hub live strip: mirrors the demo patient's newest reading so the
+       landing page feels alive. Read-only, through the backend API. */
+    (function () {
+      var BASE = "https://cardiovascular-care-backend.onrender.com";
+      function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+
+      function beat() {
+        var bpm = parseInt(document.documentElement.style.getPropertyValue("--bpm"), 10) || 72;
+        set("hero-bpm", bpm); set("live-bpm", bpm);
+      }
+
+      function updateBpm(bpm) {
+        if (!bpm || bpm < 20 || bpm > 240) bpm = 72;
+        document.documentElement.style.setProperty("--bpm", bpm);
+        beat();
+      }
+
+      function tick() {
+        fetch(BASE + "/health-readings/P001").then(function (r) { return r.json(); }).then(function (j) {
+          if (!j || !j.success || !Array.isArray(j.data) || !j.data.length) return;
+          var n = j.data[0];
+          updateBpm(n.heartRate);
+          set("live-spo2", n.spo2);
+          set("hub-conn", "Backend Connected");
+          document.getElementById("hub-dot").className = "dot dot-green";
+          return fetch(BASE + "/alerts/P001").then(function (r) { return r.json(); }).then(function (a) {
+            var active = (a && a.success && Array.isArray(a.data))
+              ? a.data.filter(function (x) { return x.status === "active"; }).length : 0;
+            set("live-alerts", active);
+          });
+        }).catch(function () {
+          set("hub-conn", "Backend unavailable — retrying…");
+          document.getElementById("hub-dot").className = "dot dot-red";
+        });
+      }
+
+      tick();
+      setInterval(tick, 5000);
+      /* hero heart beats at the live BPM (animation-duration follows --bpm) */
+      setInterval(beat, 1000);
+      beat();
+    })();
+  </script>
 </body>
 </html>
