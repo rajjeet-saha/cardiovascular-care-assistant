@@ -67,7 +67,9 @@ unchanged. This is the modular-architecture point to emphasize to reviewers.
 ```
 cardiovascular-care-assistant/
 ├── API_CONTRACT.md            # source of truth for the team (do not rename fields)
-├── server.js                  # EXISTING backend (Express + Firestore) — do not duplicate
+├── backend/                   # EXISTING backend (Express + Firestore) — do not duplicate
+│   ├── server.js              #   API implementation (deployed on Render)
+│   └── package.json           #   backend dependencies
 ├── serve.js                   # zero-dependency static server for the frontend demo
 ├── index.html                 # launcher hub page
 ├── simulator/
@@ -156,7 +158,9 @@ active alerts. The frontend never decides medical abnormality — the backend do
 ## 10. Demo instructions (quick version)
 
 ```bash
+npm install            # once (backend + tooling deps)
 npm run serve          # hub at http://localhost:3001
+npm start              # run the backend locally on :3000 (optional; deployed one is used by default)
 ```
 
 Open the hub → **Doctor Dashboard**, **Patient App**, **Wearable Simulator**.
@@ -177,7 +181,22 @@ the backend every 10 minutes so it stays warm and the demo opens instantly. If t
 schedule is ever disabled (GitHub auto-pauses schedules after 60 days without a
 commit), re-enable it in the repo's Actions tab or push any commit.
 
-## 11. Future scope
+## 11. Patent proposal
+
+A formal invention disclosure for the system's core research direction — the
+**context-aware cardiovascular monitoring and escalation architecture** (activity-aware
+alert gating, persistence-verified verification, patient-response closed loop,
+escalation ladder with evidence bundles, and a defined connectivity-fallback contract
+between wearable / gateway / backend) — is in **`docs/patent-proposal.md`**.
+
+It is written in industry-standard filing format: background & problem statement,
+summary of the invention, prior-art analysis, five detailed embodiments, draft
+independent + dependent claims (method / system / CRM), abstract, risk assessment,
+and a prioritized filing plan (provisional-first strategy). The document clearly
+separates what the prototype implements today from what is disclosed as a future
+embodiment.
+
+## 12. Future scope
 
 - AI/ML cardiovascular intelligence: activity context, patient-specific baseline,
   signal quality, persistence, escalation states (NORMAL → EARLY WARNING →
@@ -186,14 +205,14 @@ commit), re-enable it in the repo's Actions tab or push any commit.
 - Firebase Authentication with role-based access (doctor/patient).
 - Caregiver escalation, GPS location, blood-pressure integration.
 
-## 12. Limitations
+## 13. Limitations
 
 - Academic prototype; synthetic data only; not clinically validated; non-diagnostic.
 - Simulator replaces the physical wearable for the software demo.
 - Single-patient demo (`P001`); no authentication yet; polling-based updates
   (3–5 s) instead of a streaming connection.
 
-## 13. Security / privacy principles
+## 14. Security / privacy principles
 
 No credentials in the frontend, no Firebase service-account keys in any client,
 backend-controlled Firestore access, synthetic patient data only, clear prototype
