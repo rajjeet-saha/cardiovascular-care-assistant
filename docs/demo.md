@@ -14,7 +14,9 @@ Academic prototype. Synthetic data only. Not a medical device.
    30–60 s while it wakes, and the UI now auto-retries with a
    "Waking backend" indicator. **Tip:** open the hub ~5 minutes before the
    demo and leave the tab open — it pings the backend every 50 s to keep
-   it warm for the whole session.)
+   it warm for the whole session. A GitHub Action also pings the backend
+   every 10 minutes automatically (keep-alive workflow), so this is just a
+   second safety net.)
 4. Optional CLI alternative for the simulator:
    `node simulator/simulator.js` (menu) or `--scenario high` flags.
 

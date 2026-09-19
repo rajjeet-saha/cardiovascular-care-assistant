@@ -1,7 +1,5 @@
 # Cardiovascular Care Assistant
 
-> Demonstration frontend + wearable simulator. The Express + Firestore backend lives in [REDEXX01/cardiovascular-care-backend](https://github.com/REDEXX01/cardiovascular-care-backend) and is deployed at https://cardiovascular-care-backend.onrender.com
-
 **Smart wearable-based cardiovascular monitoring ecosystem — academic prototype.**
 
 > ⚠️ **Academic prototype.** This system is intended for monitoring, visualization,
@@ -167,6 +165,17 @@ Trigger scenarios in the simulator and watch the dashboard update within ~4 s
 
 Full step-by-step demo script: [`docs/demo.md`](docs/demo.md).
 CLI simulator: see [`simulator/README.md`](simulator/README.md).
+
+### Live hosted demo + backend keep-alive
+
+The demo frontend is hosted on GitHub Pages:
+`https://rajjeet-saha.github.io/cardiovascular-care-assistant/`
+
+The Render free tier sleeps the backend after ~15 min without traffic. A scheduled
+GitHub Action (`.github/workflows/keep-alive.yml` in the Pages repository) pings
+the backend every 10 minutes so it stays warm and the demo opens instantly. If the
+schedule is ever disabled (GitHub auto-pauses schedules after 60 days without a
+commit), re-enable it in the repo's Actions tab or push any commit.
 
 ## 11. Future scope
 
